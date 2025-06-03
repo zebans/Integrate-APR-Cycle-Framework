@@ -266,6 +266,7 @@ if [[ -d $apr_patch_dir ]];then
 			git add $source_target_path
 			git commit -m "Apply patch $index"
 			echo "✅ Integrate Patch #${index} Success."
+			git branch -d patch_${pid_low}_${vid}_${index}
 		else
 			echo "❌  Patch can't used."
 			exit 1
