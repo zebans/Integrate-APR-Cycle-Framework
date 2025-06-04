@@ -143,7 +143,7 @@ Framework(){
 #buggy_pid_vid_dir=$buggy_proj_dir/${pid_low}_${vid}_buggy
 
 #> Exclude_pid_vid
-for ((current_vid=71;current_vid<=vid;current_vid++))
+for ((current_vid=1;current_vid<=vid;current_vid++))
 do
 	fixed_proj_dir=$proj_dir/Fixed/$pid_low
 	fixed_pid_vid_dir=$fixed_proj_dir/${pid_low}_${current_vid}_fixed
