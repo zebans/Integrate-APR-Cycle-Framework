@@ -1,0 +1,39 @@
+diff --git a/fix_process.sh b/fix_process.sh
+index 0b918f1..620416e 100644
+--- a/fix_process.sh
++++ b/fix_process.sh
+@@ -244,13 +244,15 @@ if [[ -d $apr_patch_dir ]];then
+ # <--------------------------------------Split-------------------------------------->
+ 
+ 		# TODO: Using git repo. 
+-		cd $buggy_pid_vid_dir	
++		cd $buggy_pid_vid_dir
++		# TODO: Checkout Project Git Base (For cycle 0)
++		git checkout -b ${pid_low}_${vid}_base	# Build Base Branch
+ 		# TODO: (for backup)
+-		cp $source_target_path $source_target_path.bak
++		cp $source_target_path $source_target_path.bak	# (for safety)
+ 		# TODO: Copy patch file to 
+ 		cp -f $selected_patch_target_path $source_target_path
+ 		# TODO: Diff file gen.
+-		git diff > $apr_patch_dir/$pid_low/$vid/$index.diff
++		git --no-pager diff $source_target_path > $apr_patch_dir/$pid_low/$vid/$index.diff
+ 		# TODO: Go back
+ 		mv $source_target_path.bak $source_target_path
+ 		# TODO: (Check) Apply the patch
+@@ -262,10 +264,14 @@ if [[ -d $apr_patch_dir ]];then
+ 		#TODO: Apply it
+ 		git apply $apr_patch_dir/$pid_low/$vid/$index.diff
+ 		if [ $? -eq 0 ];then
+-			git checkout -b patch_${pid_low}_${vid}_${index}
++			git checkout -b ${pid_low}_${vid}_Cycle_#${cycle}
+ 			git add $source_target_path
+ 			git commit -m "Apply patch $index"
++			
+ 			echo "✅ Integrate Patch #${index} Success."
++			
++			git checkout ${pid_low}_${vid}_base
++			git merge --no-ff ${pid_low}_${vid}_Cycle_${cycle}
+ 			git branch -d patch_${pid_low}_${vid}_${index}
+ 		else
+ 			echo "❌  Patch can't used."
