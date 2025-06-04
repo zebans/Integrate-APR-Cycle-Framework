@@ -209,6 +209,11 @@ if [[ -d $apr_patch_dir ]];then
 	amount_patch=$(ls $apr_patch_dir/$pid_low/$vid | wc -l)
 	patch_file_array=($(ls $apr_patch_dir/$pid_low/$vid))
 	
+	# TODO: Using git repo. 
+	cd $buggy_pid_vid_dir
+	# TODO: Checkout Project Git Base (For cycle 0)
+	git checkout -b ${pid_low}_${vid}_base	# Build Base Branch
+	
 	# TODO: Start to Integrate Generated Patch to Project Source Path
 	for ((index=0;index<amount_patch;index++))
 	do
@@ -243,10 +248,7 @@ if [[ -d $apr_patch_dir ]];then
 
 # <--------------------------------------Split-------------------------------------->
 
-		# TODO: Using git repo. 
-		cd $buggy_pid_vid_dir
-		# TODO: Checkout Project Git Base (For cycle 0)
-		git checkout -b ${pid_low}_${vid}_base	# Build Base Branch
+		# TODO: Use git to integrate patch
 		# TODO: (for backup)
 		cp $source_target_path $source_target_path.bak	# (for safety)
 		# TODO: Copy patch file to 
