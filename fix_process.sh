@@ -1,5 +1,5 @@
 #!/bin/bash
-# Testing
+
 # Teminal Window
 cols=$(tput cols)
 fill=$(printf '%*s' "$cols" '' | tr ' ' '=')
