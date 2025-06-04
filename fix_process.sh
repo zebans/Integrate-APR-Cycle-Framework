@@ -249,6 +249,7 @@ if [[ -d $apr_patch_dir ]];then
 # <--------------------------------------Split-------------------------------------->
 
 		# TODO: Use git to integrate patch
+		cd $buggy_pid_vid_dir
 		# TODO: (for backup)
 		cp $source_target_path $source_target_path.bak	# (for safety)
 		# TODO: Copy patch file to 
