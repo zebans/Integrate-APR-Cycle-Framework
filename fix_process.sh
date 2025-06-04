@@ -213,6 +213,8 @@ if [[ -d $apr_patch_dir ]];then
 	cd $buggy_pid_vid_dir
 	# TODO: Checkout Project Git Base (For cycle 0)
 	git checkout -b ${pid_low}_${vid}_base	# Build Base Branch
+	git add .
+	git commit -m "Commit ${pid_low}-${vid} #${cycle} Informations."
 	
 	# TODO: Start to Integrate Generated Patch to Project Source Path
 	for ((index=0;index<amount_patch;index++))
