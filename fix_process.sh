@@ -271,13 +271,12 @@ if [[ -d $apr_patch_dir ]];then
 			echo "✅ Integrate Patch #${index} Success."
 			
 			git checkout ${pid_low}_${vid}_base
-			git merge --no-ff ${pid_low}_${vid}_Cycle_${cycle}
-			git branch -d patch_${pid_low}_${vid}_${index}
+			git cherry-pick ${pid_low}_${vid}_Cycle_#${cycle}
+			git branch -d ${pid_low}_${vid}_Cycle_#${cycle}
 		else
 			echo "❌  Patch can't used."
 			exit 1
-		fi	
-		
+		fi
 		# TODO: diff -u old_file new_file > patch.diff
 #		diff -u $source_target_path $selected_patch_target_path
 #		diff -u $source_target_path $selected_patch_target_path > $apr_patch_dir/$pid_low/$vid/$index.diff
