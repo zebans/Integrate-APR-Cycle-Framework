@@ -267,15 +267,15 @@ if [[ -d $apr_patch_dir ]];then
 		#TODO: Apply it
 		git apply $apr_patch_dir/$pid_low/$vid/$index.diff
 		if [ $? -eq 0 ];then
-			git checkout -b ${pid_low}_${vid}_Cycle_#${cycle}
+			git checkout -b ${pid_low}_${vid}_Cycle_#${cycle}_Index_#${index}
 			git add $source_target_path
 			git commit -m "Apply patch $index"
 			
 			echo "✅ Integrate Patch #${index} Success."
 			
 			git checkout ${pid_low}_${vid}_base
-			git merge --no-ff ${pid_low}_${vid}_Cycle_#${cycle}
-			git branch -D patch_${pid_low}_${vid}_${index}
+			git merge --no-ff ${pid_low}_${vid}_Cycle_#${cycle}_Index_#${index}
+			git branch -D ${pid_low}_${vid}_Cycle_#${cycle}_Index_#${index}
 		else
 			echo "❌  Patch can't used."
 			exit 1
