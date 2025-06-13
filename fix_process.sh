@@ -276,7 +276,7 @@ if [[ -d $apr_patch_dir ]];then
 			echo "✅ Integrate Patch #${index} Success."
 			
 			git checkout ${pid_low}_${vid}_base
-			git merge --no-ff ${pid_low}_${vid}_Cycle_#${cycle}_Index_#${index}
+			git merge --no-ff ${pid_low}_${vid}_Cycle_#${cycle}_Index_#${index} -m "Merge patch: ${pid_low}_${vid}_Cycle_#${cycle}_Index_#${index}"
 			git branch -D ${pid_low}_${vid}_Cycle_#${cycle}_Index_#${index}
 		else
 			echo "❌  Patch can't used."
