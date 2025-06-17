@@ -158,10 +158,10 @@ if [ -s "$buggy_pid_vid_dir/failing_tests" ]; then
 	# TODO: Prepare test cases and source class data
 	cd $buggy_pid_vid_dir
 	# XXX: This is all tests file
-#	defects4j export -p tests.all | tee $vid.test	# Test suite
-	# TODO: We have to back to use relevant tests cuz (cmd:defects4j tests) only test relevant tests
-	relevant_tests_file=/home/ncyu/defects4j/framework/projects/$pid/relevant_tests/$vid
-	cp $relevant_tests_file $vid.test
+	defects4j export -p tests.all | tee $vid.test	# Test suite
+
+#	relevant_tests_file=/home/ncyu/defects4j/framework/projects/$pid/relevant_tests/$vid
+#	cp $relevant_tests_file $vid.test
 	
 	# TODO: Self Define the src File to Response Cycle APR Tool Patches
 	find $src_dir -type f -name "*.java" | sed "s|$src_dir/||; s|/|.|g; s|\.java$||" > $vid.src	# Source class
