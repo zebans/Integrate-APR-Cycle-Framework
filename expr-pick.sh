@@ -64,13 +64,10 @@ Framework(){
 	# TODO: Test First
 	cd $buggy_pid_vid_dir
 	#	defects4j test
+	framework_result=0
 	
 	cycle=0	# TODO: Init Cycle
 	start=$(date +%s)	# TODO: Start timer
-	
-	# TODO: Fault localization: Gzoltar v1.7.2 with java 1.8
-	$expr_dir/gzoltar.sh $current_pid $current_vid
-	framework_result=$?
 	
 	while [ "$framework_result" -ne 99 ]; do
 #	while [ -s "$buggy_pid_vid_dir/failing_tests" ]; do
@@ -78,6 +75,16 @@ Framework(){
 		
 		if [ "$cycle" -eq 1 ]; then	# TODO: The first time cycle
 			echo "🔁 Starting repair cycle #$cycle"
+			
+			# TODO: Fault localization: Gzoltar v1.7.2 with java 1.8
+			$expr_dir/gzoltar.sh $current_pid $current_vid
+			
+			if ! grep -q "-" $buggy_pid_vid_dir/sfl/txt/matrix.txt; then
+			    echo "⚠️  matrix.txt has no '-' (no failed test cases)."
+			    framework_result=99
+			    echo
+			    break
+			fi
 
 			cd $expr_dir
 
@@ -96,8 +103,15 @@ Framework(){
 			echo "⏱️ Cycle #$cycle time: $cycle_duration seconds."
 			echo "⏱️ Cycle #$cycle time: $cycle_duration seconds." >> $expr_dir/Fixed/$current_pid_low/$current_vid/${current_pid}_${current_vid}_cycle_${cycle}_cost.txt
 			
-			cd $buggy_pid_vid_dir
-			defects4j test
+			# TODO: Fault localization: Gzoltar v1.7.2 with java 1.8
+			$expr_dir/gzoltar.sh $current_pid $current_vid
+			
+			if ! grep -q "-" $buggy_pid_vid_dir/sfl/txt/matrix.txt; then
+			    echo "⚠️  matrix.txt has no '-' (no failed test cases)."
+			    framework_result=99
+			    echo
+			    break
+			fi
 			
 		elif [[ -d $apr_patch_dir && "$cycle" -ne 1 && $cycle -le 5 ]]; then	# TODO: Terminal Condition
 			
@@ -105,9 +119,6 @@ Framework(){
 			
 			echo "🔁 Starting repair cycle #$cycle"
 			
-			# TODO: Fault localization: Gzoltar v1.7.2 with java 1.8
-			$expr_dir/gzoltar.sh $current_pid $current_vid
-			framework_result=$?
 			cd $expr_dir
 
 			# TODO: Select test cases
@@ -125,8 +136,16 @@ Framework(){
 			echo "⏱️ Cycle #$cycle time: $cycle_duration seconds."
 			echo "⏱️ Cycle #$cycle time: $cycle_duration seconds." >> $expr_dir/Fixed/$current_pid_low/$current_vid/${current_pid}_${current_vid}_cycle_${cycle}_cost.txt
 			
-			cd $buggy_pid_vid_dir
-			defects4j test
+			# TODO: Fault localization: Gzoltar v1.7.2 with java 1.8
+			$expr_dir/gzoltar.sh $current_pid $current_vid
+			
+			if ! grep -q "-" $buggy_pid_vid_dir/sfl/txt/matrix.txt; then
+			    echo "⚠️  matrix.txt has no '-' (no failed test cases)."
+			    framework_result=99
+			    echo
+			    break
+			fi
+			
 		else
 			echo "🛑 No new patch found in previous cycle. Exiting loop."
 			break

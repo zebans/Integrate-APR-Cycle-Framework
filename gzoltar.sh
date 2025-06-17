@@ -170,11 +170,6 @@ list_test_method $vid.test
 gen_ser_file $test_pool
 sbfl_report
 
-if ! grep -q "-" $buggy_pid_vid_dir/sfl/txt/matrix.txt; then
-    echo "⚠️  matrix.txt has no '-' (no failed test cases)."
-    exit 99
-fi
-
 # TODO: Copy the script and python file to project/sfl/txt
 cp $expr_dir/selection_algo.sh $buggy_pid_vid_dir/sfl/txt/
 cp $expr_dir/find_representative_coverage.py $buggy_pid_vid_dir/sfl/txt/
