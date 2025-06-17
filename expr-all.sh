@@ -63,19 +63,22 @@ Framework(){
 	
 	# TODO: Test First
 	cd $buggy_pid_vid_dir
-	defects4j test
+	#	defects4j test
 	
 	cycle=0	# TODO: Init Cycle
 	start=$(date +%s)	# TODO: Start timer
 	
-	while [ -s "$buggy_pid_vid_dir/failing_tests" ]; do	
+	# TODO: Fault localization: Gzoltar v1.7.2 with java 1.8
+	$expr_dir/gzoltar.sh $current_pid $current_vid
+	framework_result=$?
+	
+	while [ "$framework_result" -ne 99 ]; do
+#	while [ -s "$buggy_pid_vid_dir/failing_tests" ]; do
 		((cycle++))	# TODO: Enter Cycle
 		
 		if [ "$cycle" -eq 1 ]; then	# TODO: The first time cycle
 			echo "🔁 Starting repair cycle #$cycle"
-			
-			# TODO: Fault localization: Gzoltar v1.7.2 with java 1.8
-			$expr_dir/gzoltar.sh $current_pid $current_vid
+
 			cd $expr_dir
 
 			# TODO: Select test cases
@@ -104,6 +107,8 @@ Framework(){
 			
 			# TODO: Fault localization: Gzoltar v1.7.2 with java 1.8
 			$expr_dir/gzoltar.sh $current_pid $current_vid
+			framework_result=$?
+			cd $expr_dir
 
 			# TODO: Select test cases
 			./selection_algo.sh $current_pid $current_vid $top_k $threshold_j # FIXME: Copy the script into project/sfl/txt

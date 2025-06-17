@@ -46,7 +46,7 @@ export gzoltar_cli_jar=$home_dir/gzoltar/com.gzoltar.cli/target/com.gzoltar.cli-
 
 # TODO: Step2: Enter Project space and Test
 cd $buggy_pid_vid_dir
-defects4j test
+#defects4j test
 
 
 
@@ -149,42 +149,43 @@ sbfl_report() {
 
 > $buggy_pid_vid_dir/all_testcases	# Test cases name file
 # TODO: Judge enter cycle or not
-if [ -s "$buggy_pid_vid_dir/failing_tests" ]; then
-	
-	# TODO: Step3: FL
-	echo "✅ Enter Framework Cycle."
-	echo
 
-	# TODO: Prepare test cases and source class data
-	cd $buggy_pid_vid_dir
-	# XXX: This is all tests file
-	defects4j export -p tests.all | tee $vid.test	# Test suite
+# TODO: Step3: FL
+echo "✅ Enter Framework Cycle."
+echo
+
+# TODO: Prepare test cases and source class data
+cd $buggy_pid_vid_dir
+# XXX: This is all tests file
+defects4j export -p tests.all | tee $vid.test	# Test suite
 
 #	relevant_tests_file=/home/ncyu/defects4j/framework/projects/$pid/relevant_tests/$vid
 #	cp $relevant_tests_file $vid.test
 	
-	# TODO: Self Define the src File to Response Cycle APR Tool Patches
-	find $src_dir -type f -name "*.java" | sed "s|$src_dir/||; s|/|.|g; s|\.java$||" > $vid.src	# Source class
+# TODO: Self Define the src File to Response Cycle APR Tool Patches
+find $src_dir -type f -name "*.java" | sed "s|$src_dir/||; s|/|.|g; s|\.java$||" > $vid.src	# Source class
 	
-	# TODO: Test all get coverage information
-	list_test_method $vid.test
-	gen_ser_file $test_pool
-	sbfl_report
-	
-	# TODO: Copy the script and python file to project/sfl/txt
-	cp $expr_dir/selection_algo.sh $buggy_pid_vid_dir/sfl/txt/
-	cp $expr_dir/find_representative_coverage.py $buggy_pid_vid_dir/sfl/txt/
-	cp $expr_dir/Jaccard_similarity.py $buggy_pid_vid_dir/sfl/txt/
-	
-	# TODO: Make Test cases file
-	cd $buggy_pid_vid_dir/sfl/txt/
-	tail -n +2 tests.csv | while IFS=, read -r test_name outcome runtime stacktrace; do	# Skip header
-		echo ${test_name} >> $buggy_pid_vid_dir/all_testcases
-	done
-	
-else
-	echo "⚠️  $buggy_pid_vid_dir/failing_tests is null."
+# TODO: Test all get coverage information
+list_test_method $vid.test
+gen_ser_file $test_pool
+sbfl_report
+
+if ! grep -q "-" $buggy_pid_vid_dir/sfl/txt/matrix.txt; then
+    echo "⚠️  matrix.txt has no '-' (no failed test cases)."
+    exit 99
 fi
+
+# TODO: Copy the script and python file to project/sfl/txt
+cp $expr_dir/selection_algo.sh $buggy_pid_vid_dir/sfl/txt/
+cp $expr_dir/find_representative_coverage.py $buggy_pid_vid_dir/sfl/txt/
+cp $expr_dir/Jaccard_similarity.py $buggy_pid_vid_dir/sfl/txt/
+
+# TODO: Make Test cases file
+cd $buggy_pid_vid_dir/sfl/txt/
+tail -n +2 tests.csv | while IFS=, read -r test_name outcome runtime stacktrace; do	# Skip header
+	echo ${test_name} >> $buggy_pid_vid_dir/all_testcases
+done
+
 
 
 
