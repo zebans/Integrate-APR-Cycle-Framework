@@ -320,21 +320,21 @@ if [[ -d $apr_patch_dir ]];then
 #	init_apr_patch_dir
 #	echo "Init <init_apr_patch_dir> echo ~"
 #	echo
-	
-	# TODO: Init Project compile file work space
-	init_proj_build_sfl
-	echo "Init <init_proj_build_sfl> echo ~"
-	echo
-	
-	# FIXME: Init Project cycle xxx_ori file(only SimFix)
-	init_proj_ori_file
-	echo "Init <init_proj_ori_file> echo ~"
-	echo
 		
 else
 	echo "Apr tool have no patch for $pid_low-$vid"
 	> $Framework_result_dir/${cycle}_end
 fi
+
+# TODO: Init Project compile file work space
+init_proj_build_sfl
+echo "Init <init_proj_build_sfl> echo ~"
+echo
+
+# FIXME: Init Project cycle xxx_ori file(only SimFix)
+init_proj_ori_file
+echo "Init <init_proj_ori_file> echo ~"
+echo
 
 
 
